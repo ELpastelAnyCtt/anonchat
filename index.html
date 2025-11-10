@@ -281,6 +281,30 @@
             background-color: #b32b2b;
         }
 
+        .btn-fixed-top-left {
+            position: fixed;
+            top: 12px;
+            left: 20px;
+            z-index: 1001;
+            background-color: var(--cor-fundo-secundaria);
+            border: 1px solid var(--cor-borda);
+            color: var(--cor-texto-primaria);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-fixed-top-left:hover {
+            background-color: var(--cor-destaque-primaria);
+            color: var(--cor-fundo-primaria);
+        }
+
         .lista-salas {
             list-style: none;
             flex: 1;
@@ -326,14 +350,14 @@
 
         .info-sala {
             display: flex;
-            gap: 12px;
-            font-size: 0.8rem;
+            gap: 10px;
+            font-size: 0.75rem;
             color: var(--cor-texto-secundaria);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .preview-sala {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--cor-texto-primaria);
             opacity: 0.9;
         }
@@ -351,36 +375,39 @@
             background-color: var(--cor-fundo-secundaria);
             border-bottom: 1px solid var(--cor-borda);
             z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .barra-queima {
             position: absolute;
             bottom: 0;
             left: 0;
-            height: 3px;
-            background-color: var(--cor-perigo);
+            height: 4px;
+            background: linear-gradient(90deg, var(--cor-perigo), #ff6666);
             border-radius: 2px 2px 0 0;
             transition: width 1s linear;
             z-index: 10;
+            box-shadow: 0 0 4px rgba(255, 51, 51, 0.5);
         }
 
         .barra-queima-container {
             position: relative;
             width: 100%;
-            height: 3px;
+            height: 4px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 2px 2px 0 0;
             overflow: hidden;
             margin-bottom: 12px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .titulo-chat {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
         }
 
         .temporizador-chat {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--cor-texto-secundaria);
             display: flex;
             align-items: center;
@@ -394,19 +421,19 @@
         .container-mensagens {
             flex: 1;
             overflow-y: auto;
-            padding: 8px;
+            padding: 6px;
             border: 1px solid var(--cor-borda);
-            border-radius: 6px;
-            margin-bottom: 12px;
+            border-radius: 5px;
+            margin-bottom: 70px;
             margin-top: 60px;
-            max-height: calc(50vh - 60px);
+            max-height: calc(100vh - 130px);
             background-color: var(--cor-fundo-secundaria);
         }
 
         .mensagem {
-            margin-bottom: 12px;
-            padding: 10px;
-            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
             max-width: 80%;
             animation: aparecer 0.3s ease;
         }
@@ -431,14 +458,14 @@
             background-color: rgba(255, 153, 0, 0.1);
             border-left: 3px solid var(--cor-alerta);
             max-width: 90%;
-            margin: 10px auto;
+            margin: 8px auto;
             text-align: center;
         }
 
         .remetente-mensagem {
             font-weight: 600;
-            margin-bottom: 4px;
-            font-size: 0.8rem;
+            margin-bottom: 3px;
+            font-size: 0.75rem;
             color: var(--cor-destaque-primaria);
         }
 
@@ -448,18 +475,18 @@
         }
 
         .tempo-mensagem {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             opacity: 0.7;
             text-align: right;
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
         .indicador-digitacao {
-            padding: 8px 12px;
+            padding: 6px 10px;
             font-style: italic;
             color: var(--cor-texto-secundaria);
             display: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .indicador-digitacao.ativa {
@@ -475,17 +502,25 @@
 
         .area-entrada {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px 20px;
+            background-color: var(--cor-fundo-secundaria);
+            border-top: 1px solid var(--cor-borda);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .area-entrada input {
             flex: 1;
-            padding: 10px 12px;
-            background-color: var(--cor-fundo-secundaria);
+            padding: 8px 10px;
+            background-color: var(--cor-fundo-terciaria);
             border: 1px solid var(--cor-borda);
             color: var(--cor-texto-primaria);
-            border-radius: 5px;
-            font-size: 0.9rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
         }
 
         .area-entrada input:focus {
@@ -494,17 +529,18 @@
         }
 
         .area-entrada button {
-            padding: 10px 16px;
+            padding: 8px 14px;
             background-color: var(--cor-destaque-primaria);
             border: none;
             color: var(--cor-fundo-primaria);
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            font-size: 0.8rem;
         }
 
         .area-entrada button:hover {
@@ -779,7 +815,7 @@
                     <i class="fas fa-paper-plane"></i> Enviar
                 </button>
             </div>
-            <button class="btn btn-fixed-top" id="voltarListaSalas">
+            <button class="btn btn-fixed-top-left" id="voltarListaSalas">
                 <i class="fas fa-arrow-left"></i> Voltar para Salas
             </button>
             <button class="btn btn-perigo" id="botaoDeletarSala" style="display: none;">
