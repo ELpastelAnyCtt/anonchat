@@ -672,14 +672,11 @@
                     <div class="grupo-form">
                         <div class="rotulo-form">Seu ID Anônimo</div>
                         <div class="perfil-usuario">
-                            <div class="avatar-usuario" id="avatarModalUsuario">A</div>
-                            <div class="info-usuario">
-                                <div class="nome-usuario" id="apelidoModalUsuario">Anônimo</div>
-                                <div class="status-usuario">Gerado automaticamente</div>
-                            </div>
+                            <div class="nome-usuario" id="apelidoModalUsuario">Anônimo</div>
+                            <div class="status-usuario">Gerado automaticamente</div>
                         </div>
                         <div class="texto-form">
-                            Este ID é gerado aleatoriamente e não pode ser alterado. 
+                            Este ID é gerado aleatoriamente e não pode ser alterado.
                             Para anonimato completo, delete sua conta para obter um novo ID.
                         </div>
                     </div>
@@ -814,7 +811,6 @@
             // Perfil do usuário
             perfilUsuario: document.getElementById('perfilUsuario'),
             apelidoUsuario: document.getElementById('apelidoUsuario'),
-            avatarModalUsuario: document.getElementById('avatarModalUsuario'),
             apelidoModalUsuario: document.getElementById('apelidoModalUsuario'),
 
             // Botões
@@ -939,7 +935,6 @@
         function atualizarInformacoesUsuario() {
             elementos.apelidoUsuario.textContent = estado.apelido;
             elementos.apelidoModalUsuario.textContent = estado.apelido;
-            elementos.avatarModalUsuario.textContent = estado.apelido.charAt(0);
         }
 
         // Configurar event listeners
