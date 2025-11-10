@@ -916,7 +916,7 @@
         async function inicializar() {
             await carregarDoArmazenamento();
             configurarEventos();
-            await mostrarListaSalas();
+            mostrarModal(elementos.modalUsuario);
             atualizarContadorOnline();
         }
 
