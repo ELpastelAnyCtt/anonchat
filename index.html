@@ -137,13 +137,7 @@
 
         .logo-icone {
             color: var(--cor-destaque-primaria);
-            font-size: 1.3rem;
-        }
-
-        h1 {
-            font-size: 1.3rem;
-            color: var(--cor-destaque-primaria);
-            font-weight: 600;
+            font-size: 1.5rem;
         }
 
         .barra-status {
@@ -574,33 +568,20 @@
         /* Perfil do Usuário */
         .perfil-usuario {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar-usuario {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--cor-destaque-primaria);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--cor-fundo-primaria);
-            font-weight: bold;
-        }
-
-        .info-usuario {
-            display: flex;
             flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
         }
 
         .nome-usuario {
             font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--cor-texto-primaria);
         }
 
-        .status-usuario {
-            font-size: 0.8rem;
+        .contador-online {
+            font-size: 0.7rem;
             color: var(--cor-texto-secundaria);
         }
 
@@ -655,16 +636,12 @@
             <div class="header-left">
                 <div class="logo">
                     <i class="fas fa-user-secret logo-icone"></i>
-                    <h1>AnonChat</h1>
                 </div>
             </div>
             <div class="header-center">
                 <div class="perfil-usuario" id="perfilUsuario">
-                    <div class="avatar-usuario" id="avatarUsuario">A</div>
-                    <div class="info-usuario">
-                        <div class="nome-usuario" id="apelidoUsuario">Anônimo</div>
-                        <div class="status-usuario">Online</div>
-                    </div>
+                    <div class="nome-usuario" id="apelidoUsuario">Anônimo</div>
+                    <div class="contador-online">Online: <span id="contadorOnline">28</span></div>
                 </div>
             </div>
             <div class="header-right">
@@ -677,10 +654,6 @@
                     </button>
                     <button class="menu-item" id="menuCriarSala">
                         <i class="fas fa-plus"></i> Criar Sala
-                    </button>
-                    <div style="border-top: 1px solid var(--cor-borda); margin: 4px 0;"></div>
-                    <button class="menu-item" id="menuOnline">
-                        <i class="fas fa-users"></i> Online: <span id="contadorOnline">28</span>
                     </button>
                 </div>
             </div>
@@ -840,7 +813,6 @@
 
             // Perfil do usuário
             perfilUsuario: document.getElementById('perfilUsuario'),
-            avatarUsuario: document.getElementById('avatarUsuario'),
             apelidoUsuario: document.getElementById('apelidoUsuario'),
             avatarModalUsuario: document.getElementById('avatarModalUsuario'),
             apelidoModalUsuario: document.getElementById('apelidoModalUsuario'),
@@ -967,7 +939,6 @@
         function atualizarInformacoesUsuario() {
             elementos.apelidoUsuario.textContent = estado.apelido;
             elementos.apelidoModalUsuario.textContent = estado.apelido;
-            elementos.avatarUsuario.textContent = estado.apelido.charAt(0);
             elementos.avatarModalUsuario.textContent = estado.apelido.charAt(0);
         }
 
