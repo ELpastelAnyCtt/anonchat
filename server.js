@@ -346,24 +346,31 @@ setInterval(() => {
     });
 }, 60000); // Check every minute
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
 
-// Graceful shutdown
-process.once('SIGINT', () => {
-    if (process.env.TELEGRAM_BOT_TOKEN) {
-        const { Telegraf } = require('telegraf');
-        const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-        bot.stop('SIGINT');
-    }
-});
-process.once('SIGTERM', () => {
-    if (process.env.TELEGRAM_BOT_TOKEN) {
-        const { Telegraf } = require('telegraf');
-        const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-        bot.stop('SIGTERM');
-    }
-});
+// For local development
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+
+    // Graceful shutdown
+    process.once('SIGINT', () => {
+        if (process.env.TELEGRAM_BOT_TOKEN) {
+            const { Telegraf } = require('telegraf');
+            const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+            bot.stop('SIGINT');
+        }
+        process.exit(0);
+    });
+    process.once('SIGTERM', () => {
+        if (process.env.TELEGRAM_BOT_TOKEN) {
+            const { Telegraf } = require('telegraf');
+            const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+            bot.stop('SIGTERM');
+        }
+        process.exit(0);
+    });
+}
