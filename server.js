@@ -1,376 +1,343 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(express.static('.')); // Serve static files from current directory
+app.use(express.static(__dirname));
+app.use(express.urlencoded({ extended: true }));
 
-// In-memory storage for chats and messages (in production, use a database)
-let chats = [
+// Armazenamento em memória (em produção use um banco de dados)
+let salas = [
     {
-        id: 'chat1',
-        name: 'ChatGeralAno-01',
-        users: 12,
-        preview: 'Welcome to the main anonymous chat room!',
-        burnTime: 0, // 0 means infinite
-        creator: null,
-        fixed: true,
-        isOfficial: true,
-        messages: [
+        id: 'sala1',
+        nome: 'Chat Geral Anônimo',
+        usuarios: 15,
+        preview: 'Bem-vindo ao chat geral anônimo!',
+        tempoAutoDestruicao: 0, // 0 significa infinito
+        criador: null,
+        fixa: true,
+        mensagens: [
             {
                 id: 'm1',
-                sender: 'System',
-                text: 'Welcome to ChatGeralAno-01. This is the main anonymous chat room with infinite burn time. Messages here persist forever.',
-                time: new Date().toISOString(),
-                system: true
+                remetente: 'Sistema',
+                texto: 'Bem-vindo ao Chat Geral Anônimo. Esta sala tem tempo de destruição infinito. As mensagens aqui persistem para sempre.',
+                tempo: new Date().toISOString(),
+                sistema: true
             }
         ]
     },
     {
-        id: 'chat2',
-        name: 'Discussions',
-        users: 19,
-        preview: 'Talk about anything here...',
-        burnTime: 60, // 1 hours in minutes
-        creator: null,
-        fixed: false,
-        isOfficial: false,
-        messages: [
+        id: 'sala2',
+        nome: 'Discussões Livres',
+        usuarios: 23,
+        preview: 'Converse sobre qualquer coisa aqui...',
+        tempoAutoDestruicao: 60, // 1 hora em minutos
+        criador: null,
+        fixa: false,
+        mensagens: [
             {
                 id: 'm1',
-                sender: 'Anonymous',
-                text: 'Anyone want to chat about something interesting?',
-                time: new Date().toISOString()
+                remetente: 'Anônimo',
+                texto: 'Alguém quer conversar sobre algo interessante?',
+                tempo: new Date().toISOString()
             }
         ]
     },
     {
-        id: 'chat3',
-        name: 'Confessions',
-        users: 97,
-        preview: 'Share your secrets anonymously...',
-        burnTime: 60, // 1 hour
-        creator: null,
-        fixed: false,
-        isOfficial: false,
-        messages: [
+        id: 'sala3',
+        nome: 'Confissões Anônimas',
+        usuarios: 47,
+        preview: 'Compartilhe seus segredos anonimamente...',
+        tempoAutoDestruicao: 60, // 1 hora
+        criador: null,
+        fixa: false,
+        mensagens: [
             {
                 id: 'm1',
-                sender: 'Anonymous',
-                text: 'Sometimes it feels good to talk to strangers...',
-                time: new Date().toISOString()
+                remetente: 'Anônimo',
+                texto: 'Às vezes é bom conversar com estranhos...',
+                tempo: new Date().toISOString()
             }
         ]
     }
 ];
 
-let userChats = {};
-let onlineUsers = 15;
+let salasUsuario = {};
+let usuariosOnline = 28;
 
-// Telegram Bot integration (only run if token is available)
-if (process.env.TELEGRAM_BOT_TOKEN) {
-    const { Telegraf } = require('telegraf');
-    const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-
-    // Bot commands
-    bot.start((ctx) => {
-        ctx.reply('Welcome to AnonChat! Use /help to see available commands.');
-    });
-
-    bot.help((ctx) => {
-        ctx.reply(`
-AnonChat Bot Commands:
-/start - Start the bot
-/help - Show this help message
-/list - List available chats
-/join <chat_id> - Join a chat
-/send <chat_id> <message> - Send message to chat
-/create <name> <burn_time> - Create new chat (burn_time in minutes, 0 for infinite)
-/delete <chat_id> - Delete your chat (if creator)
-/my - Show your created chats
-        `);
-    });
-
-    bot.command('list', (ctx) => {
-        let message = 'Available Chats:\n\n';
-        chats.forEach(chat => {
-            const isOfficial = chat.fixed ? ' 👑' : '';
-            const burnTime = chat.burnTime === 0 ? '∞' : `${chat.burnTime}m`;
-            message += `${chat.id}: ${chat.name}${isOfficial} (${chat.users} users, ${burnTime})\n`;
-            message += `  "${chat.preview}"\n\n`;
-        });
-        ctx.reply(message);
-    });
-
-    bot.command('join', (ctx) => {
-        const chatId = ctx.message.text.split(' ')[1];
-        const chat = chats.find(c => c.id === chatId);
-
-        if (!chat) {
-            return ctx.reply('Chat not found. Use /list to see available chats.');
-        }
-
-        // Show recent messages
-        let message = `Joined ${chat.name}\n\nRecent messages:\n`;
-        const recentMessages = chat.messages.slice(-5); // Last 5 messages
-
-        recentMessages.forEach(msg => {
-            const time = new Date(msg.time).toLocaleTimeString();
-            if (msg.system) {
-                message += `[${time}] System: ${msg.text}\n`;
-            } else {
-                message += `[${time}] ${msg.sender}: ${msg.text}\n`;
-            }
-        });
-
-        ctx.reply(message);
-    });
-
-    bot.command('send', (ctx) => {
-        const parts = ctx.message.text.split(' ');
-        const chatId = parts[1];
-        const messageText = parts.slice(2).join(' ');
-
-        if (!chatId || !messageText) {
-            return ctx.reply('Usage: /send <chat_id> <message>');
-        }
-
-        const chat = chats.find(c => c.id === chatId);
-        if (!chat) {
-            return ctx.reply('Chat not found.');
-        }
-
-        // Add message
-        const message = {
-            id: 'm' + Date.now(),
-            sender: ctx.from.username || ctx.from.first_name || 'Anonymous',
-            text: messageText,
-            time: new Date().toISOString()
-        };
-
-        chat.messages.push(message);
-        chat.preview = messageText.length > 50 ? messageText.substring(0, 50) + '...' : messageText;
-
-        ctx.reply(`Message sent to ${chat.name}`);
-    });
-
-    bot.command('create', (ctx) => {
-        const parts = ctx.message.text.split(' ');
-        const name = parts.slice(1, -1).join(' ');
-        const burnTime = parseInt(parts[parts.length - 1]);
-
-        if (!name || isNaN(burnTime)) {
-            return ctx.reply('Usage: /create <name> <burn_time_in_minutes>');
-        }
-
-        const randomId = Math.floor(Math.random() * 9000) + 1000;
-        const chatName = `(AnonUser-${randomId}) ${name}`;
-        const chatId = 'chat' + Date.now();
-
-        const newChat = {
-            id: chatId,
-            name: chatName,
-            users: 1,
-            preview: 'New chat created. Be the first to send a message!',
-            burnTime: burnTime,
-            creator: ctx.from.id.toString(),
-            fixed: false,
-            messages: [
-                {
-                    id: 'm1',
-                    sender: 'System',
-                    text: `Chat created by ${ctx.from.username || ctx.from.first_name}. ${burnTime === 0 ?
-                        'This chat has infinite burn time.' :
-                        `This chat will be automatically deleted after ${burnTime} minutes of inactivity.`
-                    }`,
-                    time: new Date().toISOString(),
-                    system: true
-                }
-            ]
-        };
-
-        chats.unshift(newChat);
-        userChats[ctx.from.id] = chatId;
-
-        ctx.reply(`Chat "${chatName}" created! ID: ${chatId}`);
-    });
-
-    bot.command('delete', (ctx) => {
-        const chatId = ctx.message.text.split(' ')[1];
-
-        if (!chatId) {
-            return ctx.reply('Usage: /delete <chat_id>');
-        }
-
-        const chat = chats.find(c => c.id === chatId);
-        if (!chat) {
-            return ctx.reply('Chat not found.');
-        }
-
-        if (chat.creator !== ctx.from.id.toString()) {
-            return ctx.reply('You can only delete chats you created.');
-        }
-
-        if (chat.fixed) {
-            return ctx.reply('Cannot delete official chats.');
-        }
-
-        // Remove chat
-        chats = chats.filter(c => c.id !== chatId);
-        delete userChats[ctx.from.id];
-
-        ctx.reply(`Chat "${chat.name}" deleted.`);
-    });
-
-    bot.command('my', (ctx) => {
-        const userChatId = userChats[ctx.from.id];
-        if (!userChatId) {
-            return ctx.reply('You haven\'t created any chats yet.');
-        }
-
-        const chat = chats.find(c => c.id === userChatId);
-        if (!chat) {
-            return ctx.reply('Your chat no longer exists.');
-        }
-
-        ctx.reply(`Your chat: ${chat.name} (ID: ${chat.id})`);
-    });
-
-    // Start bot
-    bot.launch();
-    console.log('Bot started');
+// Gerar ID único
+function gerarIdUnico() {
+    return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 }
 
-// API endpoints for the web app
-app.get('/api/chats', (req, res) => {
-    res.json(chats);
+// Gerar apelido aleatório
+function gerarApelidoAleatorio() {
+    const adjetivos = ['Misterioso', 'Silencioso', 'Oculto', 'Desconhecido', 'Anônimo', 'Secreto', 'Sombrio', 'Fantasma'];
+    const substantivos = ['Estranho', 'Observador', 'Viajante', 'Visitante', 'Andarilho', 'Espectador', 'Fantasma', 'Entidade'];
+    const adjetivoAleatorio = adjetivos[Math.floor(Math.random() * adjetivos.length)];
+    const substantivoAleatorio = substantivos[Math.floor(Math.random() * substantivos.length)];
+    const numeroAleatorio = Math.floor(Math.random() * 9000) + 1000;
+    return `${adjetivoAleatorio}${substantivoAleatorio}${numeroAleatorio}`;
+}
+
+// Gerar nome aleatório para sala
+function gerarNomeSalaAleatorio() {
+    const prefixos = ['Privada', 'Secreta', 'Anônima', 'Oculta', 'Segura', 'Criptografada', 'Fantasma', 'Silenciosa'];
+    const sufixos = ['Sala', 'Espaço', 'Lugar', 'Canal', 'Central', 'Zona', 'Canto', 'Lounge'];
+    const prefixoAleatorio = prefixos[Math.floor(Math.random() * prefixos.length)];
+    const sufixoAleatorio = sufixos[Math.floor(Math.random() * sufixos.length)];
+    const idAleatorio = Math.floor(Math.random() * 9000) + 1000;
+    return `${prefixoAleatorio} ${sufixoAleatorio} ${idAleatorio}`;
+}
+
+// Formatar tempo de auto-destruição
+function formatarTempoAutoDestruicao(minutos) {
+    if (minutos === 0) return 'infinito';
+    if (minutos < 1) return `${Math.round(minutos * 60)} segundos`;
+    if (minutos < 60) return `${minutos} minuto${minutos !== 1 ? 's' : ''}`;
+    if (minutos < 1440) return `${Math.round(minutos / 60)} hora${Math.round(minutos / 60) !== 1 ? 's' : ''}`;
+    return `${Math.round(minutos / 1440)} dia${Math.round(minutos / 1440) !== 1 ? 's' : ''}`;
+}
+
+// Rota principal - servir o arquivo HTML
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/api/chats/:id/messages', (req, res) => {
-    const chat = chats.find(c => c.id === req.params.id);
-    if (!chat) {
-        return res.status(404).json({ error: 'Chat not found' });
-    }
-    res.json(chat.messages);
+// API - Listar salas
+app.get('/api/salas', (req, res) => {
+    res.json({
+        sucesso: true,
+        salas: salas,
+        usuariosOnline: usuariosOnline
+    });
 });
 
-app.post('/api/chats/:id/messages', (req, res) => {
-    const chat = chats.find(c => c.id === req.params.id);
-    if (!chat) {
-        return res.status(404).json({ error: 'Chat not found' });
+// API - Obter mensagens de uma sala
+app.get('/api/salas/:id/mensagens', (req, res) => {
+    const sala = salas.find(s => s.id === req.params.id);
+    if (!sala) {
+        return res.status(404).json({ 
+            sucesso: false, 
+            erro: 'Sala não encontrada' 
+        });
+    }
+    res.json({
+        sucesso: true,
+        mensagens: sala.mensagens
+    });
+});
+
+// API - Enviar mensagem
+app.post('/api/salas/:id/mensagens', (req, res) => {
+    const { remetente, texto } = req.body;
+    const sala = salas.find(s => s.id === req.params.id);
+    
+    if (!sala) {
+        return res.status(404).json({ 
+            sucesso: false, 
+            erro: 'Sala não encontrada' 
+        });
     }
 
-    const message = {
-        id: 'm' + Date.now(),
-        sender: req.body.sender || 'Anonymous',
-        text: req.body.text,
-        time: new Date().toISOString()
+    if (!texto || texto.trim() === '') {
+        return res.status(400).json({ 
+            sucesso: false, 
+            erro: 'Texto da mensagem não pode estar vazio' 
+        });
+    }
+
+    const mensagem = {
+        id: 'msg_' + Date.now(),
+        remetente: remetente || 'Anônimo',
+        texto: texto.trim(),
+        tempo: new Date().toISOString()
     };
 
-    chat.messages.push(message);
-    chat.preview = message.text.length > 50 ? message.text.substring(0, 50) + '...' : message.text;
+    sala.mensagens.push(mensagem);
+    sala.preview = mensagem.texto.length > 50 ? 
+        mensagem.texto.substring(0, 50) + '...' : 
+        mensagem.texto;
 
-    res.json(message);
+    // Simular resposta automática ocasionalmente
+    if (Math.random() < 0.3) { // 30% de chance
+        setTimeout(() => {
+            const respostas = [
+                "Interessante...",
+                "Concordo com você",
+                "Nunca pensei nisso",
+                "Hmm, entendo",
+                "Você tem um ponto",
+                "Isso é verdade",
+                "Por favor continue",
+                "Gosto do que você disse",
+                "Conte-me mais",
+                "Isso é fascinante"
+            ];
+            const usuariosFalsos = ['Anônimo', 'Estranho', 'Alguém', 'Desconhecido', 'UsuárioMisterioso'];
+            
+            const respostaAutomatica = {
+                id: 'msg_' + Date.now(),
+                remetente: usuariosFalsos[Math.floor(Math.random() * usuariosFalsos.length)],
+                texto: respostas[Math.floor(Math.random() * respostas.length)],
+                tempo: new Date().toISOString()
+            };
+            
+            const salaAtual = salas.find(s => s.id === req.params.id);
+            if (salaAtual) {
+                salaAtual.mensagens.push(respostaAutomatica);
+            }
+        }, 2000 + Math.random() * 5000);
+    }
+
+    res.json({
+        sucesso: true,
+        mensagem: mensagem
+    });
 });
 
-app.post('/api/chats', (req, res) => {
-    const { name, burnTime, creator } = req.body;
-    const randomId = Math.floor(Math.random() * 9000) + 1000;
-    const chatName = `(AnonUser-${randomId}) ${name}`;
-    const chatId = 'chat' + Date.now();
+// API - Criar nova sala
+app.post('/api/salas', (req, res) => {
+    const { nome, tempoAutoDestruicao, criador } = req.body;
+    
+    if (!nome || nome.trim() === '') {
+        return res.status(400).json({ 
+            sucesso: false, 
+            erro: 'Nome da sala não pode estar vazio' 
+        });
+    }
 
-    const newChat = {
-        id: chatId,
-        name: chatName,
-        users: 1,
-        preview: 'New chat created. Be the first to send a message!',
-        burnTime: burnTime,
-        creator: creator,
-        fixed: false,
-        messages: [
+    const novaSala = {
+        id: 'sala_' + Date.now(),
+        nome: nome.trim(),
+        usuarios: 1,
+        preview: 'Nova sala criada. Seja o primeiro a enviar uma mensagem!',
+        tempoAutoDestruicao: tempoAutoDestruicao || 360, // Padrão 6 horas
+        criador: criador || 'Anônimo',
+        fixa: false,
+        mensagens: [
             {
-                id: 'm1',
-                sender: 'System',
-                text: `Chat created. ${burnTime === 0 ?
-                    'This chat has infinite burn time.' :
-                    `This chat will be automatically deleted after ${burnTime} minutes of inactivity.`
+                id: 'msg_1',
+                remetente: 'Sistema',
+                texto: `Sala criada. ${tempoAutoDestruicao === 0 ? 
+                    'Esta sala tem tempo de destruição infinito.' : 
+                    `Esta sala será automaticamente deletada após ${formatarTempoAutoDestruicao(tempoAutoDestruicao)} de inatividade.`
                 }`,
-                time: new Date().toISOString(),
-                system: true
+                tempo: new Date().toISOString(),
+                sistema: true
             }
         ]
     };
 
-    chats.unshift(newChat);
-    userChats[creator] = chatId;
+    salas.unshift(novaSala);
+    
+    if (criador) {
+        salasUsuario[criador] = novaSala.id;
+    }
 
-    res.json(newChat);
+    res.json({
+        sucesso: true,
+        sala: novaSala
+    });
 });
 
-app.delete('/api/chats/:id', (req, res) => {
-    const { creator } = req.body;
-    const chat = chats.find(c => c.id === req.params.id);
+// API - Deletar sala
+app.delete('/api/salas/:id', (req, res) => {
+    const { criador } = req.body;
+    const sala = salas.find(s => s.id === req.params.id);
 
-    if (!chat) {
-        return res.status(404).json({ error: 'Chat not found' });
+    if (!sala) {
+        return res.status(404).json({ 
+            sucesso: false, 
+            erro: 'Sala não encontrada' 
+        });
     }
 
-    if (chat.creator !== creator) {
-        return res.status(403).json({ error: 'Not authorized' });
+    if (sala.fixa) {
+        return res.status(403).json({ 
+            sucesso: false, 
+            erro: 'Não é possível deletar salas oficiais' 
+        });
     }
 
-    if (chat.fixed) {
-        return res.status(403).json({ error: 'Cannot delete official chats' });
+    if (sala.criador !== criador) {
+        return res.status(403).json({ 
+            sucesso: false, 
+            erro: 'Apenas o criador pode deletar esta sala' 
+        });
     }
 
-    chats = chats.filter(c => c.id !== req.params.id);
-    delete userChats[creator];
+    salas = salas.filter(s => s.id !== req.params.id);
+    delete salasUsuario[criador];
 
-    res.json({ success: true });
+    res.json({
+        sucesso: true,
+        mensagem: 'Sala deletada com sucesso'
+    });
 });
 
-// Cleanup expired chats
+// API - Health check
+app.get('/api/health', (req, res) => {
+    res.json({
+        sucesso: true,
+        mensagem: 'Servidor funcionando corretamente',
+        timestamp: new Date().toISOString(),
+        salasAtivas: salas.length,
+        usuariosOnline: usuariosOnline
+    });
+});
+
+// API - Gerar apelido
+app.get('/api/gerar-apelido', (req, res) => {
+    res.json({
+        sucesso: true,
+        apelido: gerarApelidoAleatorio()
+    });
+});
+
+// API - Gerar nome de sala
+app.get('/api/gerar-nome-sala', (req, res) => {
+    res.json({
+        sucesso: true,
+        nomeSala: gerarNomeSalaAleatorio()
+    });
+});
+
+// Limpeza de salas expiradas
 setInterval(() => {
-    const now = Date.now();
-    chats = chats.filter(chat => {
-        if (chat.fixed || chat.burnTime === 0) return true;
+    const agora = Date.now();
+    salas = salas.filter(sala => {
+        if (sala.fixa || sala.tempoAutoDestruicao === 0) return true;
 
-        const lastMessage = chat.messages[chat.messages.length - 1];
-        if (!lastMessage) return true;
+        const ultimaMensagem = sala.mensagens[sala.mensagens.length - 1];
+        if (!ultimaMensagem) return true;
 
-        const lastActivity = new Date(lastMessage.time).getTime();
-        const expiryTime = lastActivity + (chat.burnTime * 60 * 1000);
+        const ultimaAtividade = new Date(ultimaMensagem.tempo).getTime();
+        const tempoExpiracao = ultimaAtividade + (sala.tempoAutoDestruicao * 60 * 1000);
 
-        return now < expiryTime;
+        return agora < tempoExpiracao;
     });
-}, 60000); // Check every minute
+}, 60000); // Verificar a cada minuto
 
-// Export the app for Vercel
-module.exports = app;
+// Atualizar contagem de usuários online
+setInterval(() => {
+    const variacao = Math.floor(Math.random() * 7) - 3; // -3 a +3
+    usuariosOnline = Math.max(10, 28 + variacao);
+}, 30000);
 
-// For local development
+// Inicializar servidor
+const PORTA = process.env.PORT || 3000;
+
 if (require.main === module) {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-
-    // Graceful shutdown
-    process.once('SIGINT', () => {
-        if (process.env.TELEGRAM_BOT_TOKEN) {
-            const { Telegraf } = require('telegraf');
-            const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-            bot.stop('SIGINT');
-        }
-        process.exit(0);
-    });
-    process.once('SIGTERM', () => {
-        if (process.env.TELEGRAM_BOT_TOKEN) {
-            const { Telegraf } = require('telegraf');
-            const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-            bot.stop('SIGTERM');
-        }
-        process.exit(0);
+    app.listen(PORTA, () => {
+        console.log(`🚀 Servidor AnonChat rodando na porta ${PORTA}`);
+        console.log(`📧 Ambiente: ${process.env.NODE_ENV || 'desenvolvimento'}`);
+        console.log(`👥 Usuários online simulados: ${usuariosOnline}`);
+        console.log(`💬 Salas ativas: ${salas.length}`);
     });
 }
+
+module.exports = app;

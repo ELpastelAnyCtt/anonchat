@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnonChat - Anonymous Messaging</title>
+    <title>AnonChat - Mensagens Anônimas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-tertiary: #1a1a1a;
-            --accent-primary: #00cc66;
-            --accent-secondary: #00994d;
-            --text-primary: #e0e0e0;
-            --text-secondary: #a0a0a0;
-            --border-color: #333333;
-            --danger: #cc3333;
-            --warning: #ff9900;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            --cor-fundo-primaria: #0a0a0a;
+            --cor-fundo-secundaria: #111111;
+            --cor-fundo-terciaria: #1a1a1a;
+            --cor-destaque-primaria: #00cc66;
+            --cor-destaque-secundaria: #00994d;
+            --cor-texto-primaria: #e0e0e0;
+            --cor-texto-secundaria: #a0a0a0;
+            --cor-borda: #333333;
+            --cor-perigo: #cc3333;
+            --cor-alerta: #ff9900;
+            --sombra: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -28,8 +28,8 @@
         }
 
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            background-color: var(--cor-fundo-primaria);
+            color: var(--cor-texto-primaria);
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
@@ -52,7 +52,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--cor-borda);
             margin-bottom: 20px;
         }
 
@@ -62,45 +62,45 @@
             gap: 10px;
         }
 
-        .logo-icon {
-            color: var(--accent-primary);
+        .logo-icone {
+            color: var(--cor-destaque-primaria);
             font-size: 1.5rem;
         }
 
         h1 {
             font-size: 1.5rem;
-            color: var(--accent-primary);
+            color: var(--cor-destaque-primaria);
             font-weight: 600;
         }
 
-        .status-bar {
+        .barra-status {
             display: flex;
             gap: 15px;
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
         }
 
-        .status-item {
+        .item-status {
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        .status-icon {
-            color: var(--accent-primary);
+        .icone-status {
+            color: var(--cor-destaque-primaria);
         }
 
-        .screen {
+        .tela {
             display: none;
             flex: 1;
             flex-direction: column;
         }
 
-        .screen.active {
+        .tela.ativa {
             display: flex;
         }
 
-        /* Modal Styles */
+        /* Estilos de Modal */
         .modal {
             position: fixed;
             top: 0;
@@ -115,73 +115,73 @@
             padding: 20px;
         }
 
-        .modal-content {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+        .conteudo-modal {
+            background-color: var(--cor-fundo-secundaria);
+            border: 1px solid var(--cor-borda);
             border-radius: 8px;
             padding: 25px;
             width: 100%;
             max-width: 450px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--sombra);
             position: relative;
         }
 
-        .modal-header {
+        .cabecalho-modal {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .modal-title {
+        .titulo-modal {
             font-size: 1.3rem;
-            color: var(--accent-primary);
+            color: var(--cor-destaque-primaria);
         }
 
-        .close-modal {
+        .fechar-modal {
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
             font-size: 1.2rem;
             cursor: pointer;
         }
 
-        .close-modal:hover {
-            color: var(--text-primary);
+        .fechar-modal:hover {
+            color: var(--cor-texto-primaria);
         }
 
-        .modal-body {
+        .corpo-modal {
             margin-bottom: 20px;
         }
 
-        .modal-footer {
+        .rodape-modal {
             display: flex;
             gap: 10px;
         }
 
-        /* Chat List Screen */
-        .screen-header {
+        /* Tela de Lista de Salas */
+        .cabecalho-tela {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .screen-title {
+        .titulo-tela {
             font-size: 1.4rem;
             font-weight: 600;
         }
 
-        .action-buttons {
+        .botoes-acao {
             display: flex;
             gap: 10px;
         }
 
         .btn {
             padding: 10px 15px;
-            background-color: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
+            background-color: var(--cor-fundo-terciaria);
+            border: 1px solid var(--cor-borda);
+            color: var(--cor-texto-primaria);
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
@@ -192,38 +192,38 @@
         }
 
         .btn:hover {
-            background-color: var(--accent-primary);
-            color: var(--bg-primary);
+            background-color: var(--cor-destaque-primaria);
+            color: var(--cor-fundo-primaria);
         }
 
-        .btn-primary {
-            background-color: var(--accent-primary);
-            color: var(--bg-primary);
+        .btn-primario {
+            background-color: var(--cor-destaque-primaria);
+            color: var(--cor-fundo-primaria);
         }
 
-        .btn-primary:hover {
-            background-color: var(--accent-secondary);
+        .btn-primario:hover {
+            background-color: var(--cor-destaque-secundaria);
         }
 
-        .btn-danger {
-            background-color: var(--danger);
+        .btn-perigo {
+            background-color: var(--cor-perigo);
             color: white;
         }
 
-        .btn-danger:hover {
+        .btn-perigo:hover {
             background-color: #b32b2b;
         }
 
-        .chat-list {
+        .lista-salas {
             list-style: none;
             flex: 1;
             overflow-y: auto;
             margin-bottom: 15px;
         }
 
-        .chat-item {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+        .item-sala {
+            background-color: var(--cor-fundo-secundaria);
+            border: 1px solid var(--cor-borda);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 10px;
@@ -231,179 +231,179 @@
             transition: all 0.3s;
         }
 
-        .chat-item:hover {
-            border-color: var(--accent-primary);
+        .item-sala:hover {
+            border-color: var(--cor-destaque-primaria);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            box-shadow: var(--sombra);
         }
 
-        .chat-item-header {
+        .cabecalho-sala {
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
         }
 
-        .chat-name {
+        .nome-sala {
             font-weight: 600;
             font-size: 1.1rem;
         }
 
-        .chat-badge {
-            background-color: var(--accent-primary);
-            color: var(--bg-primary);
+        .badge-sala {
+            background-color: var(--cor-destaque-primaria);
+            color: var(--cor-fundo-primaria);
             padding: 3px 8px;
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: 600;
         }
 
-        .chat-info {
+        .info-sala {
             display: flex;
             gap: 15px;
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
             margin-bottom: 8px;
         }
 
-        .chat-preview {
+        .preview-sala {
             font-size: 0.9rem;
-            color: var(--text-primary);
+            color: var(--cor-texto-primaria);
             opacity: 0.9;
         }
 
-        /* Chat Screen */
-        .chat-header-bar {
+        /* Tela de Chat */
+        .barra-cabecalho-chat {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--cor-borda);
             margin-bottom: 15px;
         }
 
-        .chat-title {
+        .titulo-chat {
             font-size: 1.3rem;
             font-weight: 600;
         }
 
-        .chat-timer {
+        .temporizador-chat {
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        .timer-icon {
-            color: var(--warning);
+        .icone-temporizador {
+            color: var(--cor-alerta);
         }
 
-        .messages-container {
+        .container-mensagens {
             flex: 1;
             overflow-y: auto;
             padding: 10px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--cor-borda);
             border-radius: 8px;
             margin-bottom: 15px;
             max-height: 60vh;
-            background-color: var(--bg-secondary);
+            background-color: var(--cor-fundo-secundaria);
         }
 
-        .message {
+        .mensagem {
             margin-bottom: 15px;
             padding: 12px;
             border-radius: 8px;
             max-width: 80%;
-            animation: fadeIn 0.3s ease;
+            animation: aparecer 0.3s ease;
         }
 
-        @keyframes fadeIn {
+        @keyframes aparecer {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.own {
+        .mensagem.propria {
             margin-left: auto;
             background-color: rgba(0, 204, 102, 0.15);
-            border-left: 3px solid var(--accent-primary);
+            border-left: 3px solid var(--cor-destaque-primaria);
         }
 
-        .message.other {
-            background-color: var(--bg-tertiary);
-            border-right: 3px solid var(--border-color);
+        .mensagem.outra {
+            background-color: var(--cor-fundo-terciaria);
+            border-right: 3px solid var(--cor-borda);
         }
 
-        .message-system {
+        .mensagem-sistema {
             background-color: rgba(255, 153, 0, 0.1);
-            border-left: 3px solid var(--warning);
+            border-left: 3px solid var(--cor-alerta);
             max-width: 90%;
             margin: 10px auto;
             text-align: center;
         }
 
-        .message-sender {
+        .remetente-mensagem {
             font-weight: 600;
             margin-bottom: 5px;
             font-size: 0.9rem;
-            color: var(--accent-primary);
+            color: var(--cor-destaque-primaria);
         }
 
-        .message-text {
+        .texto-mensagem {
             word-wrap: break-word;
             line-height: 1.5;
         }
 
-        .message-time {
+        .tempo-mensagem {
             font-size: 0.7rem;
             opacity: 0.7;
             text-align: right;
             margin-top: 5px;
         }
 
-        .typing-indicator {
+        .indicador-digitacao {
             padding: 8px 12px;
             font-style: italic;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
             display: none;
             font-size: 0.9rem;
         }
 
-        .typing-indicator.active {
+        .indicador-digitacao.ativa {
             display: block;
-            animation: pulse 1.5s infinite;
+            animation: pulsar 1.5s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes pulsar {
             0% { opacity: 0.6; }
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
 
-        .input-area {
+        .area-entrada {
             display: flex;
             gap: 10px;
         }
 
-        .input-area input {
+        .area-entrada input {
             flex: 1;
             padding: 12px 15px;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
+            background-color: var(--cor-fundo-secundaria);
+            border: 1px solid var(--cor-borda);
+            color: var(--cor-texto-primaria);
             border-radius: 6px;
             font-size: 1rem;
         }
 
-        .input-area input:focus {
+        .area-entrada input:focus {
             outline: none;
-            border-color: var(--accent-primary);
+            border-color: var(--cor-destaque-primaria);
         }
 
-        .input-area button {
+        .area-entrada button {
             padding: 12px 20px;
-            background-color: var(--accent-primary);
+            background-color: var(--cor-destaque-primaria);
             border: none;
-            color: var(--bg-primary);
+            color: var(--cor-fundo-primaria);
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
@@ -413,48 +413,48 @@
             gap: 8px;
         }
 
-        .input-area button:hover {
-            background-color: var(--accent-secondary);
+        .area-entrada button:hover {
+            background-color: var(--cor-destaque-secundaria);
         }
 
-        .input-area button:disabled {
+        .area-entrada button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .input-area button:disabled:hover {
-            background-color: var(--accent-primary);
+        .area-entrada button:disabled:hover {
+            background-color: var(--cor-destaque-primaria);
         }
 
-        /* Form Elements */
-        .form-group {
+        /* Elementos de Formulário */
+        .grupo-form {
             margin-bottom: 15px;
         }
 
-        .form-label {
+        .rotulo-form {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
         }
 
-        .form-control {
+        .controle-form {
             width: 100%;
             padding: 12px;
-            background-color: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
+            background-color: var(--cor-fundo-terciaria);
+            border: 1px solid var(--cor-borda);
+            color: var(--cor-texto-primaria);
             border-radius: 6px;
             font-size: 1rem;
         }
 
-        .form-control:focus {
+        .controle-form:focus {
             outline: none;
-            border-color: var(--accent-primary);
+            border-color: var(--cor-destaque-primaria);
         }
 
-        .form-text {
+        .texto-form {
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
             margin-top: 5px;
         }
 
@@ -467,89 +467,89 @@
             font-weight: 600;
         }
 
-        .badge-primary {
-            background-color: var(--accent-primary);
-            color: var(--bg-primary);
+        .badge-primario {
+            background-color: var(--cor-destaque-primaria);
+            color: var(--cor-fundo-primaria);
         }
 
-        .badge-secondary {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
+        .badge-secundario {
+            background-color: var(--cor-fundo-terciaria);
+            color: var(--cor-texto-primaria);
         }
 
-        /* User Profile */
-        .user-profile {
+        /* Perfil do Usuário */
+        .perfil-usuario {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .user-avatar {
+        .avatar-usuario {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: var(--accent-primary);
+            background-color: var(--cor-destaque-primaria);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--bg-primary);
+            color: var(--cor-fundo-primaria);
             font-weight: bold;
         }
 
-        .user-info {
+        .info-usuario {
             display: flex;
             flex-direction: column;
         }
 
-        .user-name {
+        .nome-usuario {
             font-weight: 600;
         }
 
-        .user-status {
+        .status-usuario {
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
         }
 
-        /* Empty State */
-        .empty-state {
+        /* Estado Vazio */
+        .estado-vazio {
             text-align: center;
             padding: 40px 20px;
-            color: var(--text-secondary);
+            color: var(--cor-texto-secundaria);
         }
 
-        .empty-icon {
+        .icone-vazio {
             font-size: 3rem;
             margin-bottom: 15px;
-            color: var(--border-color);
+            color: var(--cor-borda);
         }
 
-        /* Responsive */
+        /* Responsivo */
         @media (max-width: 600px) {
             .container {
                 padding: 15px;
             }
             
-            .status-bar {
+            .barra-status {
                 flex-direction: column;
                 gap: 5px;
                 align-items: flex-end;
             }
             
-            .message {
+            .mensagem {
                 max-width: 90%;
             }
             
-            .action-buttons {
+            .botoes-acao {
                 flex-direction: column;
             }
             
-            .chat-header-bar {
+            .barra-cabecalho-chat {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
             
-            .modal-content {
+            .conteudo-modal {
                 padding: 20px;
             }
         }
@@ -559,836 +559,797 @@
     <div class="container">
         <header>
             <div class="logo">
-                <i class="fas fa-user-secret logo-icon"></i>
+                <i class="fas fa-user-secret logo-icone"></i>
                 <h1>AnonChat</h1>
             </div>
-            <div class="status-bar">
-                <div class="status-item">
-                    <i class="fas fa-users status-icon"></i>
-                    <span>Online: <span id="onlineCount">0</span></span>
+            <div class="barra-status">
+                <div class="item-status">
+                    <i class="fas fa-users icone-status"></i>
+                    <span>Online: <span id="contadorOnline">28</span></span>
                 </div>
-                <div class="user-profile" id="userProfile">
-                    <div class="user-avatar" id="userAvatar">A</div>
-                    <div class="user-info">
-                        <div class="user-name" id="userNickname">Anonymous</div>
-                        <div class="user-status" id="userStatus">Online</div>
+                <div class="perfil-usuario" id="perfilUsuario">
+                    <div class="avatar-usuario" id="avatarUsuario">A</div>
+                    <div class="info-usuario">
+                        <div class="nome-usuario" id="apelidoUsuario">Anônimo</div>
+                        <div class="status-usuario" id="statusUsuario">Online</div>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- User Profile Modal -->
-        <div class="modal" id="userModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">Your Anonymous Profile</h2>
-                    <button class="close-modal" id="closeUserModal">
+        <!-- Modal de Perfil do Usuário -->
+        <div class="modal" id="modalUsuario">
+            <div class="conteudo-modal">
+                <div class="cabecalho-modal">
+                    <h2 class="titulo-modal">Seu Perfil Anônimo</h2>
+                    <button class="fechar-modal" id="fecharModalUsuario">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="form-label">Your Anonymous ID</div>
-                        <div class="user-profile">
-                            <div class="user-avatar" id="modalUserAvatar">A</div>
-                            <div class="user-info">
-                                <div class="user-name" id="modalUserNickname">Anonymous</div>
-                                <div class="user-status">Generated automatically</div>
+                <div class="corpo-modal">
+                    <div class="grupo-form">
+                        <div class="rotulo-form">Seu ID Anônimo</div>
+                        <div class="perfil-usuario">
+                            <div class="avatar-usuario" id="avatarModalUsuario">A</div>
+                            <div class="info-usuario">
+                                <div class="nome-usuario" id="apelidoModalUsuario">Anônimo</div>
+                                <div class="status-usuario">Gerado automaticamente</div>
                             </div>
                         </div>
-                        <div class="form-text">
-                            This ID is randomly generated and cannot be changed. 
-                            For complete anonymity, delete your account to get a new ID.
+                        <div class="texto-form">
+                            Este ID é gerado aleatoriamente e não pode ser alterado. 
+                            Para anonimato completo, delete sua conta para obter um novo ID.
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="form-label">Your Privacy Status</div>
+                    <div class="grupo-form">
+                        <div class="rotulo-form">Seu Status de Privacidade</div>
                         <div>
-                            <span class="badge badge-primary">Fully Anonymous</span>
-                            <span class="badge badge-secondary">No Tracking</span>
-                            <span class="badge badge-secondary">End-to-End Encrypted</span>
+                            <span class="badge badge-primario">Totalmente Anônimo</span>
+                            <span class="badge badge-secundario">Sem Rastreamento</span>
+                            <span class="badge badge-secundario">Criptografado</span>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="createNewChat">
-                        <i class="fas fa-plus"></i> Create New Chat
+                <div class="rodape-modal">
+                    <button class="btn btn-primario" id="criarNovaSala">
+                        <i class="fas fa-plus"></i> Criar Nova Sala
                     </button>
-                    <button class="btn btn-danger" id="deleteAccount">
-                        <i class="fas fa-trash"></i> Delete Account
+                    <button class="btn btn-perigo" id="deletarConta">
+                        <i class="fas fa-trash"></i> Deletar Conta
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Create Chat Modal -->
-        <div class="modal" id="createChatModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">Create New Chat</h2>
-                    <button class="close-modal" id="closeCreateChatModal">
+        <!-- Modal de Criar Sala -->
+        <div class="modal" id="modalCriarSala">
+            <div class="conteudo-modal">
+                <div class="cabecalho-modal">
+                    <h2 class="titulo-modal">Criar Nova Sala</h2>
+                    <button class="fechar-modal" id="fecharModalCriarSala">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="form-label">Chat Name</div>
-                        <input type="text" class="form-control" id="chatNameInput" value="Anonymous Room" readonly>
-                        <div class="form-text">Chat name is generated automatically for anonymity</div>
+                <div class="corpo-modal">
+                    <div class="grupo-form">
+                        <div class="rotulo-form">Nome da Sala</div>
+                        <input type="text" class="controle-form" id="entradaNomeSala" value="Sala Anônima" readonly>
+                        <div class="texto-form">O nome da sala é gerado automaticamente para anonimato</div>
                     </div>
-                    <div class="form-group">
-                        <div class="form-label">Burn Time</div>
-                        <select class="form-control" id="burnTimeSelect">
-                            <option value="0.5">30 seconds</option>
-                            <option value="1">1 minute</option>
-                            <option value="5">5 minutes</option>
-                            <option value="30">30 minutes</option>
-                            <option value="60">1 hour</option>
-                            <option value="360" selected>6 hours</option>
+                    <div class="grupo-form">
+                        <div class="rotulo-form">Tempo de Auto-Destruição</div>
+                        <select class="controle-form" id="selecionarTempoDestruicao">
+                            <option value="0.5">30 segundos</option>
+                            <option value="1">1 minuto</option>
+                            <option value="5">5 minutos</option>
+                            <option value="30">30 minutos</option>
+                            <option value="60">1 hora</option>
+                            <option value="360" selected>6 horas</option>
+                            <option value="0">Infinito</option>
                         </select>
-                        <div class="form-text">After this time of inactivity, the chat will be automatically deleted</div>
+                        <div class="texto-form">Após este tempo de inatividade, a sala será automaticamente deletada</div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn" id="cancelCreateChat">Cancel</button>
-                    <button class="btn btn-primary" id="confirmCreateChat">Create Chat</button>
+                <div class="rodape-modal">
+                    <button class="btn" id="cancelarCriarSala">Cancelar</button>
+                    <button class="btn btn-primario" id="confirmarCriarSala">Criar Sala</button>
                 </div>
             </div>
         </div>
 
-        <!-- Chat List Screen -->
-        <div class="screen active" id="chatListScreen">
-            <div class="screen-header">
-                <h2 class="screen-title">Available Chats</h2>
-                <div class="action-buttons">
-                    <button class="btn" id="userSettingsBtn">
-                        <i class="fas fa-user-cog"></i> Profile
+        <!-- Tela de Lista de Salas -->
+        <div class="tela ativa" id="telaListaSalas">
+            <div class="cabecalho-tela">
+                <h2 class="titulo-tela">Salas Disponíveis</h2>
+                <div class="botoes-acao">
+                    <button class="btn" id="botaoConfigUsuario">
+                        <i class="fas fa-user-cog"></i> Perfil
                     </button>
-                    <button class="btn btn-primary" id="createChatBtn">
-                        <i class="fas fa-plus"></i> New Chat
+                    <button class="btn btn-primario" id="botaoCriarSala">
+                        <i class="fas fa-plus"></i> Nova Sala
                     </button>
                 </div>
             </div>
-            <ul class="chat-list" id="chatList">
-                <!-- Chats will be loaded here -->
+            <ul class="lista-salas" id="listaSalas">
+                <!-- Salas serão carregadas aqui -->
             </ul>
         </div>
 
-        <!-- Chat Screen -->
-        <div class="screen" id="chatScreen">
-            <div class="chat-header-bar">
+        <!-- Tela de Chat -->
+        <div class="tela" id="telaChat">
+            <div class="barra-cabecalho-chat">
                 <div>
-                    <h2 class="chat-title" id="activeChatName">Chat</h2>
-                    <div class="chat-info" id="activeChatInfo">
-                        <span id="activeChatUsers">0 users</span>
-                        <span id="activeChatBurnTime">Burn time: 6h</span>
+                    <h2 class="titulo-chat" id="nomeSalaAtiva">Sala</h2>
+                    <div class="info-sala" id="infoSalaAtiva">
+                        <span id="usuariosSalaAtiva">0 usuários</span>
+                        <span id="tempoDestruicaoSalaAtiva">Tempo: 6h</span>
                     </div>
                 </div>
-                <div class="chat-timer">
-                    <i class="fas fa-clock timer-icon"></i>
-                    <span id="chatTimer">06:00:00</span>
+                <div class="temporizador-chat">
+                    <i class="fas fa-clock icone-temporizador"></i>
+                    <span id="temporizadorChat">06:00:00</span>
                 </div>
             </div>
-            <div class="messages-container" id="messagesContainer">
-                <!-- Messages will be loaded here -->
+            <div class="container-mensagens" id="containerMensagens">
+                <!-- Mensagens serão carregadas aqui -->
             </div>
-            <div class="typing-indicator" id="typingIndicator">
-                <i class="fas fa-pencil-alt"></i> Someone is typing...
+            <div class="indicador-digitacao" id="indicadorDigitacao">
+                <i class="fas fa-pencil-alt"></i> Alguém está digitando...
             </div>
-            <div class="input-area">
-                <input type="text" id="messageInput" placeholder="Type your anonymous message..." maxlength="500">
-                <button id="sendMessage">
-                    <i class="fas fa-paper-plane"></i> Send
+            <div class="area-entrada">
+                <input type="text" id="entradaMensagem" placeholder="Digite sua mensagem anônima..." maxlength="500">
+                <button id="enviarMensagem">
+                    <i class="fas fa-paper-plane"></i> Enviar
                 </button>
             </div>
-            <button class="btn" id="backToChatList">
-                <i class="fas fa-arrow-left"></i> Back to Chats
+            <button class="btn" id="voltarListaSalas">
+                <i class="fas fa-arrow-left"></i> Voltar para Salas
             </button>
-            <button class="btn btn-danger" id="deleteChatBtn" style="display: none;">
-                <i class="fas fa-trash"></i> Delete Chat
+            <button class="btn btn-perigo" id="botaoDeletarSala" style="display: none;">
+                <i class="fas fa-trash"></i> Deletar Sala
             </button>
         </div>
     </div>
 
     <script>
-        // Application State
-        const state = {
-            nickname: '',
-            activeChat: null,
-            chats: [],
-            messages: {},
-            onlineUsers: 0,
-            typingTimer: null,
-            chatTimer: null,
-            chatExpiry: null,
-            userChats: {}
+        // Estado da Aplicação
+        const estado = {
+            apelido: '',
+            salaAtiva: null,
+            salas: [],
+            mensagens: {},
+            usuariosOnline: 28,
+            temporizadorDigitacao: null,
+            temporizadorChat: null,
+            expiracaoChat: null,
+            salasUsuario: {}
         };
 
-        // DOM Elements
-        const elements = {
-            // Modals
-            userModal: document.getElementById('userModal'),
-            createChatModal: document.getElementById('createChatModal'),
+        // Elementos DOM
+        const elementos = {
+            // Modais
+            modalUsuario: document.getElementById('modalUsuario'),
+            modalCriarSala: document.getElementById('modalCriarSala'),
             
-            // User profile
-            userProfile: document.getElementById('userProfile'),
-            userAvatar: document.getElementById('userAvatar'),
-            userNickname: document.getElementById('userNickname'),
-            modalUserAvatar: document.getElementById('modalUserAvatar'),
-            modalUserNickname: document.getElementById('modalUserNickname'),
+            // Perfil do usuário
+            perfilUsuario: document.getElementById('perfilUsuario'),
+            avatarUsuario: document.getElementById('avatarUsuario'),
+            apelidoUsuario: document.getElementById('apelidoUsuario'),
+            avatarModalUsuario: document.getElementById('avatarModalUsuario'),
+            apelidoModalUsuario: document.getElementById('apelidoModalUsuario'),
             
-            // Buttons
-            userSettingsBtn: document.getElementById('userSettingsBtn'),
-            createChatBtn: document.getElementById('createChatBtn'),
-            closeUserModal: document.getElementById('closeUserModal'),
-            closeCreateChatModal: document.getElementById('closeCreateChatModal'),
-            createNewChat: document.getElementById('createNewChat'),
-            deleteAccount: document.getElementById('deleteAccount'),
-            cancelCreateChat: document.getElementById('cancelCreateChat'),
-            confirmCreateChat: document.getElementById('confirmCreateChat'),
-            backToChatList: document.getElementById('backToChatList'),
+            // Botões
+            botaoConfigUsuario: document.getElementById('botaoConfigUsuario'),
+            botaoCriarSala: document.getElementById('botaoCriarSala'),
+            fecharModalUsuario: document.getElementById('fecharModalUsuario'),
+            fecharModalCriarSala: document.getElementById('fecharModalCriarSala'),
+            criarNovaSala: document.getElementById('criarNovaSala'),
+            deletarConta: document.getElementById('deletarConta'),
+            cancelarCriarSala: document.getElementById('cancelarCriarSala'),
+            confirmarCriarSala: document.getElementById('confirmarCriarSala'),
+            voltarListaSalas: document.getElementById('voltarListaSalas'),
             
-            // Chat elements
-            chatListScreen: document.getElementById('chatListScreen'),
-            chatScreen: document.getElementById('chatScreen'),
-            chatList: document.getElementById('chatList'),
-            messagesContainer: document.getElementById('messagesContainer'),
-            messageInput: document.getElementById('messageInput'),
-            sendMessage: document.getElementById('sendMessage'),
-            typingIndicator: document.getElementById('typingIndicator'),
-            chatTimer: document.getElementById('chatTimer'),
-            onlineCount: document.getElementById('onlineCount'),
-            activeChatName: document.getElementById('activeChatName'),
-            activeChatInfo: document.getElementById('activeChatInfo'),
-            activeChatUsers: document.getElementById('activeChatUsers'),
-            activeChatBurnTime: document.getElementById('activeChatBurnTime'),
-            deleteChatBtn: document.getElementById('deleteChatBtn'),
+            // Elementos de chat
+            telaListaSalas: document.getElementById('telaListaSalas'),
+            telaChat: document.getElementById('telaChat'),
+            listaSalas: document.getElementById('listaSalas'),
+            containerMensagens: document.getElementById('containerMensagens'),
+            entradaMensagem: document.getElementById('entradaMensagem'),
+            enviarMensagem: document.getElementById('enviarMensagem'),
+            indicadorDigitacao: document.getElementById('indicadorDigitacao'),
+            temporizadorChat: document.getElementById('temporizadorChat'),
+            contadorOnline: document.getElementById('contadorOnline'),
+            nomeSalaAtiva: document.getElementById('nomeSalaAtiva'),
+            infoSalaAtiva: document.getElementById('infoSalaAtiva'),
+            usuariosSalaAtiva: document.getElementById('usuariosSalaAtiva'),
+            tempoDestruicaoSalaAtiva: document.getElementById('tempoDestruicaoSalaAtiva'),
+            botaoDeletarSala: document.getElementById('botaoDeletarSala'),
             
-            // Form elements
-            chatNameInput: document.getElementById('chatNameInput'),
-            burnTimeSelect: document.getElementById('burnTimeSelect')
+            // Elementos de formulário
+            entradaNomeSala: document.getElementById('entradaNomeSala'),
+            selecionarTempoDestruicao: document.getElementById('selecionarTempoDestruicao')
         };
 
-        // Initialize the application
-        function init() {
-            loadFromStorage();
-            setupEventListeners();
-            showChatList();
-            simulateOnlineUsers();
-            updateOnlineCount();
+        // Inicializar a aplicação
+        async function inicializar() {
+            await carregarDoArmazenamento();
+            configurarEventos();
+            await mostrarListaSalas();
+            atualizarContadorOnline();
         }
 
-        // Load data from localStorage
-        function loadFromStorage() {
-            const savedNickname = localStorage.getItem('anonChat_nickname');
-            const savedChats = localStorage.getItem('anonChat_chats');
-            const savedMessages = localStorage.getItem('anonChat_messages');
-            const savedUserChats = localStorage.getItem('anonChat_userChats');
+        // Carregar dados do localStorage
+        async function carregarDoArmazenamento() {
+            const apelidoSalvo = localStorage.getItem('anonChat_apelido');
+            const salasSalvas = localStorage.getItem('anonChat_salas');
+            const mensagensSalvas = localStorage.getItem('anonChat_mensagens');
+            const salasUsuarioSalvas = localStorage.getItem('anonChat_salasUsuario');
             
-            // Generate random nickname if not exists
-            if (!savedNickname) {
-                state.nickname = generateRandomNickname();
-                localStorage.setItem('anonChat_nickname', state.nickname);
-            } else {
-                state.nickname = savedNickname;
-            }
-            
-            // Update UI with user info
-            updateUserInfo();
-            
-            if (savedChats) {
-                state.chats = JSON.parse(savedChats);
-            }
-            
-            if (savedMessages) {
-                state.messages = JSON.parse(savedMessages);
-            }
-            
-            if (savedUserChats) {
-                state.userChats = JSON.parse(savedUserChats);
-            }
-            
-            // Initialize default chats if none exist
-            if (state.chats.length === 0) {
-                initializeDefaultChats();
-            }
-        }
-
-        // Generate random nickname
-        function generateRandomNickname() {
-            const adjectives = ['Mysterious', 'Silent', 'Hidden', 'Unknown', 'Anonymous', 'Secret', 'Shadow', 'Ghost'];
-            const nouns = ['Stranger', 'Observer', 'Traveler', 'Visitor', 'Wanderer', 'Spectator', 'Phantom', 'Entity'];
-            const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
-            const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-            const randomNum = Math.floor(Math.random() * 9000) + 1000;
-            return `${randomAdj}${randomNoun}${randomNum}`;
-        }
-
-        // Generate random chat name
-        function generateRandomChatName() {
-            const prefixes = ['Private', 'Secret', 'Anonymous', 'Hidden', 'Secure', 'Encrypted', 'Ghost', 'Silent'];
-            const suffixes = ['Room', 'Space', 'Place', 'Channel', 'Hub', 'Zone', 'Corner', 'Lounge'];
-            const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-            const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-            const randomId = Math.floor(Math.random() * 9000) + 1000;
-            return `(AnonUser-${randomId}) ${randomPrefix} ${randomSuffix}`;
-        }
-
-        // Initialize default chats
-        function initializeDefaultChats() {
-            state.chats = [
-                { 
-                    id: 'chat1', 
-                    name: 'ChatGeral-AnonyCtt', 
-                    users: 12, 
-                    preview: 'Welcome to the main anonymous chat room!', 
-                    burnTime: 0, // 0 means infinite
-                    creator: null,
-                    fixed: true
-                },
-                { 
-                    id: 'chat2', 
-                    name: 'Discussions', 
-                    users: 19, 
-                    preview: 'Talk about anything here...', 
-                    burnTime: 60, // 1 hours in minutes
-                    creator: null 
-                },
-                { 
-                    id: 'chat3', 
-                    name: 'Confessions', 
-                    users: 97, 
-                    preview: 'Share your secrets anonymously...', 
-                    burnTime: 60, // 1 hour
-                    creator: null 
+            // Gerar apelido aleatório se não existir
+            if (!apelidoSalvo) {
+                try {
+                    const resposta = await fetch('/api/gerar-apelido');
+                    const dados = await resposta.json();
+                    estado.apelido = dados.apelido;
+                } catch (erro) {
+                    estado.apelido = gerarApelidoAleatorio();
                 }
-            ];
+                localStorage.setItem('anonChat_apelido', estado.apelido);
+            } else {
+                estado.apelido = apelidoSalvo;
+            }
             
-            // Add initial messages
-            state.messages = {
-                chat1: [
+            // Atualizar UI com informações do usuário
+            atualizarInformacoesUsuario();
+            
+            // Carregar salas do servidor
+            try {
+                const resposta = await fetch('/api/salas');
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    estado.salas = dados.salas;
+                    estado.usuariosOnline = dados.usuariosOnline;
+                }
+            } catch (erro) {
+                console.error('Erro ao carregar salas:', erro);
+                // Usar dados padrão se a API falhar
+                estado.salas = [
                     { 
-                        id: 'm1', 
-                        sender: 'System', 
-                        text: 'Welcome to ChatGeral AnonyCtt. This is the main anonymous chat room with infinite burn time. Messages here persist forever.', 
-                        time: new Date().toISOString(),
-                        system: true
-                    }
-                ],
-                chat2: [
+                        id: 'sala1', 
+                        nome: 'Chat Geral Anônimo', 
+                        usuarios: 15, 
+                        preview: 'Bem-vindo ao chat geral anônimo!', 
+                        tempoAutoDestruicao: 0,
+                        criador: null,
+                        fixa: true
+                    },
                     { 
-                        id: 'm1', 
-                        sender: 'Anonymous', 
-                        text: 'Anyone want to chat about something interesting?', 
-                        time: new Date().toISOString() 
-                    }
-                ],
-                chat3: [
+                        id: 'sala2', 
+                        nome: 'Discussões Livres', 
+                        usuarios: 23, 
+                        preview: 'Converse sobre qualquer coisa aqui...', 
+                        tempoAutoDestruicao: 60,
+                        criador: null 
+                    },
                     { 
-                        id: 'm1', 
-                        sender: 'Anonymous', 
-                        text: 'Sometimes it feels good to talk to strangers...', 
-                        time: new Date().toISOString() 
+                        id: 'sala3', 
+                        nome: 'Confissões Anônimas', 
+                        usuarios: 47, 
+                        preview: 'Compartilhe seus segredos anonimamente...', 
+                        tempoAutoDestruicao: 60,
+                        criador: null 
                     }
-                ]
-            };
+                ];
+            }
             
-            saveToStorage();
+            if (salasUsuarioSalvas) {
+                estado.salasUsuario = JSON.parse(salasUsuarioSalvas);
+            }
         }
 
-        // Update user info in UI
-        function updateUserInfo() {
-            elements.userNickname.textContent = state.nickname;
-            elements.modalUserNickname.textContent = state.nickname;
-            elements.userAvatar.textContent = state.nickname.charAt(0);
-            elements.modalUserAvatar.textContent = state.nickname.charAt(0);
+        // Gerar apelido aleatório (fallback)
+        function gerarApelidoAleatorio() {
+            const adjetivos = ['Misterioso', 'Silencioso', 'Oculto', 'Desconhecido', 'Anônimo', 'Secreto', 'Sombrio', 'Fantasma'];
+            const substantivos = ['Estranho', 'Observador', 'Viajante', 'Visitante', 'Andarilho', 'Espectador', 'Fantasma', 'Entidade'];
+            const adjetivoAleatorio = adjetivos[Math.floor(Math.random() * adjetivos.length)];
+            const substantivoAleatorio = substantivos[Math.floor(Math.random() * substantivos.length)];
+            const numeroAleatorio = Math.floor(Math.random() * 9000) + 1000;
+            return `${adjetivoAleatorio}${substantivoAleatorio}${numeroAleatorio}`;
         }
 
-        // Save data to localStorage
-        function saveToStorage() {
-            localStorage.setItem('anonChat_nickname', state.nickname);
-            localStorage.setItem('anonChat_chats', JSON.stringify(state.chats));
-            localStorage.setItem('anonChat_messages', JSON.stringify(state.messages));
-            localStorage.setItem('anonChat_userChats', JSON.stringify(state.userChats));
+        // Atualizar informações do usuário na UI
+        function atualizarInformacoesUsuario() {
+            elementos.apelidoUsuario.textContent = estado.apelido;
+            elementos.apelidoModalUsuario.textContent = estado.apelido;
+            elementos.avatarUsuario.textContent = estado.apelido.charAt(0);
+            elementos.avatarModalUsuario.textContent = estado.apelido.charAt(0);
         }
 
-        // Set up event listeners
-        function setupEventListeners() {
-            // Modal controls
-            elements.userSettingsBtn.addEventListener('click', () => showModal(elements.userModal));
-            elements.createChatBtn.addEventListener('click', () => showModal(elements.createChatModal));
-            elements.closeUserModal.addEventListener('click', () => hideModal(elements.userModal));
-            elements.closeCreateChatModal.addEventListener('click', () => hideModal(elements.createChatModal));
-            elements.createNewChat.addEventListener('click', () => {
-                hideModal(elements.userModal);
-                showModal(elements.createChatModal);
+        // Configurar event listeners
+        function configurarEventos() {
+            // Controles de modal
+            elementos.botaoConfigUsuario.addEventListener('click', () => mostrarModal(elementos.modalUsuario));
+            elementos.botaoCriarSala.addEventListener('click', () => mostrarModal(elementos.modalCriarSala));
+            elementos.fecharModalUsuario.addEventListener('click', () => esconderModal(elementos.modalUsuario));
+            elementos.fecharModalCriarSala.addEventListener('click', () => esconderModal(elementos.modalCriarSala));
+            elementos.criarNovaSala.addEventListener('click', () => {
+                esconderModal(elementos.modalUsuario);
+                mostrarModal(elementos.modalCriarSala);
             });
-            elements.cancelCreateChat.addEventListener('click', () => hideModal(elements.createChatModal));
+            elementos.cancelarCriarSala.addEventListener('click', () => esconderModal(elementos.modalCriarSala));
             
-            // Account management
-            elements.deleteAccount.addEventListener('click', deleteAccount);
-            elements.confirmCreateChat.addEventListener('click', createNewChat);
+            // Gerenciamento de conta
+            elementos.deletarConta.addEventListener('click', deletarConta);
+            elementos.confirmarCriarSala.addEventListener('click', criarNovaSala);
             
-            // Chat functionality
-            elements.sendMessage.addEventListener('click', sendMessage);
-            elements.messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') sendMessage();
+            // Funcionalidade de chat
+            elementos.enviarMensagem.addEventListener('click', enviarMensagem);
+            elementos.entradaMensagem.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') enviarMensagem();
             });
-            elements.messageInput.addEventListener('input', handleTyping);
-            elements.backToChatList.addEventListener('click', showChatList);
-            elements.deleteChatBtn.addEventListener('click', deleteCurrentChat);
+            elementos.entradaMensagem.addEventListener('input', manipularDigitacao);
+            elementos.voltarListaSalas.addEventListener('click', mostrarListaSalas);
+            elementos.botaoDeletarSala.addEventListener('click', deletarSalaAtual);
             
-            // Generate random chat name when modal opens
-            elements.createChatModal.addEventListener('click', () => {
-                elements.chatNameInput.value = generateRandomChatName();
+            // Gerar nome aleatório de sala quando o modal abrir
+            elementos.modalCriarSala.addEventListener('click', async () => {
+                try {
+                    const resposta = await fetch('/api/gerar-nome-sala');
+                    const dados = await resposta.json();
+                    if (dados.sucesso) {
+                        elementos.entradaNomeSala.value = dados.nomeSala;
+                    }
+                } catch (erro) {
+                    elementos.entradaNomeSala.value = gerarNomeSalaAleatorio();
+                }
             });
+
+            // Atualizar contador online periodicamente
+            setInterval(atualizarContadorOnline, 30000);
         }
 
-        // Show modal
-        function showModal(modal) {
+        // Gerar nome aleatório de sala (fallback)
+        function gerarNomeSalaAleatorio() {
+            const prefixos = ['Privada', 'Secreta', 'Anônima', 'Oculta', 'Segura', 'Criptografada', 'Fantasma', 'Silenciosa'];
+            const sufixos = ['Sala', 'Espaço', 'Lugar', 'Canal', 'Central', 'Zona', 'Canto', 'Lounge'];
+            const prefixoAleatorio = prefixos[Math.floor(Math.random() * prefixos.length)];
+            const sufixoAleatorio = sufixos[Math.floor(Math.random() * sufixos.length)];
+            const idAleatorio = Math.floor(Math.random() * 9000) + 1000;
+            return `${prefixoAleatorio} ${sufixoAleatorio} ${idAleatorio}`;
+        }
+
+        // Mostrar modal
+        function mostrarModal(modal) {
             modal.style.display = 'flex';
         }
 
-        // Hide modal
-        function hideModal(modal) {
+        // Esconder modal
+        function esconderModal(modal) {
             modal.style.display = 'none';
         }
 
-        // Create new chat
-        function createNewChat() {
-            const chatName = elements.chatNameInput.value;
-            const burnTime = parseFloat(elements.burnTimeSelect.value);
-            const chatId = 'chat' + Date.now();
+        // Criar nova sala
+        async function criarNovaSala() {
+            const nomeSala = elementos.entradaNomeSala.value;
+            const tempoDestruicao = parseFloat(elementos.selecionarTempoDestruicao.value);
             
-            // Create new chat
-            const newChat = {
-                id: chatId,
-                name: chatName,
-                users: 1,
-                preview: 'New chat created. Be the first to send a message!',
-                burnTime: burnTime,
-                creator: state.nickname
-            };
-            
-            state.chats.unshift(newChat);
-            state.messages[chatId] = [
-                { 
-                    id: 'm1', 
-                    sender: 'System', 
-                    text: `Chat created. ${burnTime === 0 ? 
-                        'This chat has infinite burn time.' : 
-                        `This chat will be automatically deleted after ${formatBurnTime(burnTime)} of inactivity.`
-                    }`, 
-                    time: new Date().toISOString(),
-                    system: true
+            try {
+                const resposta = await fetch('/api/salas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nome: nomeSala,
+                        tempoAutoDestruicao: tempoDestruicao,
+                        criador: estado.apelido
+                    })
+                });
+                
+                const dados = await resposta.json();
+                
+                if (dados.sucesso) {
+                    esconderModal(elementos.modalCriarSala);
+                    await mostrarListaSalas();
+                    
+                    // Abrir a sala recém-criada
+                    setTimeout(() => abrirSala(dados.sala.id), 100);
+                } else {
+                    alert('Erro ao criar sala: ' + dados.erro);
                 }
-            ];
-            
-            // Register that this user created this chat
-            state.userChats[state.nickname] = chatId;
-            
-            saveToStorage();
-            hideModal(elements.createChatModal);
-            showChatList();
-            
-            // Open the newly created chat
-            setTimeout(() => openChat(chatId), 100);
-        }
-
-        // Format burn time for display
-        function formatBurnTime(minutes) {
-            if (minutes === 0) return 'infinite';
-            if (minutes < 1) return `${Math.round(minutes * 60)} seconds`;
-            if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-            if (minutes < 1440) return `${Math.round(minutes / 60)} hour${Math.round(minutes / 60) !== 1 ? 's' : ''}`;
-            return `${Math.round(minutes / 1440)} day${Math.round(minutes / 1440) !== 1 ? 's' : ''}`;
-        }
-
-        // Delete account
-        function deleteAccount() {
-            if (confirm('Are you sure you want to delete your account? Your current anonymous ID will be lost and a new one will be generated.')) {
-                // Remove user data
-                localStorage.removeItem('anonChat_nickname');
-                localStorage.removeItem('anonChat_userChats');
-                
-                // Generate new nickname
-                state.nickname = generateRandomNickname();
-                state.userChats = {};
-                
-                saveToStorage();
-                updateUserInfo();
-                hideModal(elements.userModal);
-                
-                // Show confirmation
-                alert('Account deleted. Your new anonymous ID is: ' + state.nickname);
+            } catch (erro) {
+                console.error('Erro ao criar sala:', erro);
+                alert('Erro ao criar sala. Verifique sua conexão.');
             }
         }
 
-        // Show chat list
-        function showChatList() {
-            hideAllScreens();
-            elements.chatListScreen.classList.add('active');
+        // Deletar conta
+        function deletarConta() {
+            if (confirm('Tem certeza que deseja deletar sua conta? Seu ID anônimo atual será perdido e um novo será gerado.')) {
+                // Remover dados do usuário
+                localStorage.removeItem('anonChat_apelido');
+                localStorage.removeItem('anonChat_salasUsuario');
+                
+                // Gerar novo apelido
+                estado.apelido = gerarApelidoAleatorio();
+                estado.salasUsuario = {};
+                
+                localStorage.setItem('anonChat_apelido', estado.apelido);
+                atualizarInformacoesUsuario();
+                esconderModal(elementos.modalUsuario);
+                
+                // Mostrar confirmação
+                alert('Conta deletada. Seu novo ID anônimo é: ' + estado.apelido);
+            }
+        }
+
+        // Mostrar lista de salas
+        async function mostrarListaSalas() {
+            esconderTodasTelas();
+            elementos.telaListaSalas.classList.add('ativa');
             
-            // Clear current list
-            elements.chatList.innerHTML = '';
+            // Limpar lista atual
+            elementos.listaSalas.innerHTML = '';
             
-            // Add chats to the list
-            if (state.chats.length === 0) {
-                elements.chatList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">
+            // Carregar salas do servidor
+            try {
+                const resposta = await fetch('/api/salas');
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    estado.salas = dados.salas;
+                    estado.usuariosOnline = dados.usuariosOnline;
+                    atualizarContadorOnline();
+                }
+            } catch (erro) {
+                console.error('Erro ao carregar salas:', erro);
+            }
+            
+            // Adicionar salas à lista
+            if (estado.salas.length === 0) {
+                elementos.listaSalas.innerHTML = `
+                    <div class="estado-vazio">
+                        <div class="icone-vazio">
                             <i class="fas fa-comments"></i>
                         </div>
-                        <h3>No Chats Available</h3>
-                        <p>Create your first anonymous chat to get started.</p>
+                        <h3>Nenhuma Sala Disponível</h3>
+                        <p>Crie sua primeira sala anônima para começar.</p>
                     </div>
                 `;
             } else {
-                state.chats.forEach(chat => {
-                    const chatElement = document.createElement('li');
-                    chatElement.className = 'chat-item';
+                estado.salas.forEach(sala => {
+                                        const elementoSala = document.createElement('li');
+                    elementoSala.className = 'item-sala';
                     
-                    // Check if this chat was created by the current user
-                    const isUserChat = state.userChats[state.nickname] === chat.id;
+                    // Verificar se esta sala foi criada pelo usuário atual
+                    const salaDoUsuario = estado.salasUsuario[estado.apelido] === sala.id;
                     
-                    const isOfficial = chat.fixed;
-                    chatElement.innerHTML = `
-                        <div class="chat-item-header">
-                            <div class="chat-name">${isOfficial ? '<i class="fas fa-crown" style="color: gold; margin-right: 5px;"></i>' : ''}${chat.name}</div>
-                            ${isUserChat ? '<div class="chat-badge">Your Chat</div>' : ''}
-                            ${isOfficial ? '<div class="chat-badge" style="background-color: #ffcc00; color: #000;">Official</div>' : ''}
+                    const ehOficial = sala.fixa;
+                    elementoSala.innerHTML = `
+                        <div class="cabecalho-sala">
+                            <div class="nome-sala">${ehOficial ? '<i class="fas fa-crown" style="color: gold; margin-right: 5px;"></i>' : ''}${sala.nome}</div>
+                            ${salaDoUsuario ? '<div class="badge-sala">Sua Sala</div>' : ''}
+                            ${ehOficial ? '<div class="badge-sala" style="background-color: #ffcc00; color: #000;">Oficial</div>' : ''}
                         </div>
-                        <div class="chat-info">
-                            <span><i class="fas fa-users"></i> ${chat.users} users</span>
-                            <span><i class="fas fa-clock"></i> ${formatBurnTime(chat.burnTime)}</span>
+                        <div class="info-sala">
+                            <span><i class="fas fa-users"></i> ${sala.usuarios} usuários</span>
+                            <span><i class="fas fa-clock"></i> ${formatarTempoAutoDestruicao(sala.tempoAutoDestruicao)}</span>
                         </div>
-                        <div class="chat-preview">${chat.preview}</div>
+                        <div class="preview-sala">${sala.preview}</div>
                     `;
                     
-                    chatElement.addEventListener('click', () => openChat(chat.id));
-                    elements.chatList.appendChild(chatElement);
+                    elementoSala.addEventListener('click', () => abrirSala(sala.id));
+                    elementos.listaSalas.appendChild(elementoSala);
                 });
             }
         }
 
-        // Open chat
-        function openChat(chatId) {
-            hideAllScreens();
-            elements.chatScreen.classList.add('active');
+        // Abrir sala
+        async function abrirSala(salaId) {
+            esconderTodasTelas();
+            elementos.telaChat.classList.add('ativa');
 
-            state.activeChat = chatId;
-            const chat = state.chats.find(c => c.id === chatId);
-            elements.activeChatName.textContent = chat.name;
-            elements.activeChatUsers.textContent = `${chat.users} users`;
-            elements.activeChatBurnTime.textContent = `Burn time: ${formatBurnTime(chat.burnTime)}`;
+            estado.salaAtiva = salaId;
+            const sala = estado.salas.find(s => s.id === salaId);
+            elementos.nomeSalaAtiva.textContent = sala.nome;
+            elementos.usuariosSalaAtiva.textContent = `${sala.usuarios} usuários`;
+            elementos.tempoDestruicaoSalaAtiva.textContent = `Tempo: ${formatarTempoAutoDestruicao(sala.tempoAutoDestruicao)}`;
 
-            // Show delete button only if this user created the chat and it's not fixed/official
-            const isUserChat = state.userChats[state.nickname] === chatId;
-            const isFixed = chat.fixed;
-            elements.deleteChatBtn.style.display = (isUserChat && !isFixed) ? 'inline-block' : 'none';
+            // Mostrar botão de deletar apenas se este usuário criou a sala e não é fixa/oficial
+            const salaDoUsuario = estado.salasUsuario[estado.apelido] === salaId;
+            const ehFixa = sala.fixa;
+            elementos.botaoDeletarSala.style.display = (salaDoUsuario && !ehFixa) ? 'inline-block' : 'none';
 
-            // Load messages
-            loadMessages(chatId);
+            // Carregar mensagens
+            await carregarMensagens(salaId);
 
-            // Start chat timer with specific burn time
-            startChatTimer(chat.burnTime);
+            // Iniciar temporizador do chat com tempo específico
+            iniciarTemporizadorChat(sala.tempoAutoDestruicao);
 
-            // Focus on message input
-            elements.messageInput.focus();
+            // Focar na entrada de mensagem
+            elementos.entradaMensagem.focus();
         }
 
-        // Load messages
-        function loadMessages(chatId) {
-            elements.messagesContainer.innerHTML = '';
+        // Carregar mensagens
+        async function carregarMensagens(salaId) {
+            elementos.containerMensagens.innerHTML = '';
             
-            if (state.messages[chatId]) {
-                state.messages[chatId].forEach(message => {
-                    addMessageToChat(message, chatId);
-                });
+            try {
+                const resposta = await fetch(`/api/salas/${salaId}/mensagens`);
+                const dados = await resposta.json();
+                
+                if (dados.sucesso) {
+                    dados.mensagens.forEach(mensagem => {
+                        adicionarMensagemAoChat(mensagem, salaId);
+                    });
+                }
+            } catch (erro) {
+                console.error('Erro ao carregar mensagens:', erro);
+                // Usar mensagens locais em caso de erro
+                if (estado.mensagens[salaId]) {
+                    estado.mensagens[salaId].forEach(mensagem => {
+                        adicionarMensagemAoChat(mensagem, salaId);
+                    });
+                }
             }
             
-            // Scroll to the latest message
-            scrollToBottom();
+            // Rolar para a mensagem mais recente
+            rolarParaBaixo();
         }
 
-        // Add message to chat
-        function addMessageToChat(message, chatId) {
-            const messageElement = document.createElement('div');
-            const isOwnMessage = message.sender === state.nickname;
-            const isSystemMessage = message.system;
+        // Adicionar mensagem ao chat
+        function adicionarMensagemAoChat(mensagem, salaId) {
+            const elementoMensagem = document.createElement('div');
+            const ehMensagemPropria = mensagem.remetente === estado.apelido;
+            const ehMensagemSistema = mensagem.sistema;
             
-            if (isSystemMessage) {
-                messageElement.className = 'message message-system';
+            if (ehMensagemSistema) {
+                elementoMensagem.className = 'mensagem mensagem-sistema';
             } else {
-                messageElement.className = `message ${isOwnMessage ? 'own' : 'other'}`;
+                elementoMensagem.className = `mensagem ${ehMensagemPropria ? 'propria' : 'outra'}`;
             }
             
-            messageElement.innerHTML = `
-                ${!isSystemMessage ? `<div class="message-sender">${isOwnMessage ? 'You' : message.sender}</div>` : ''}
-                <div class="message-text">${message.text}</div>
-                <div class="message-time">${formatTime(message.time)}</div>
+            elementoMensagem.innerHTML = `
+                ${!ehMensagemSistema ? `<div class="remetente-mensagem">${ehMensagemPropria ? 'Você' : mensagem.remetente}</div>` : ''}
+                <div class="texto-mensagem">${mensagem.texto}</div>
+                <div class="tempo-mensagem">${formatarTempo(mensagem.tempo)}</div>
             `;
             
-            elements.messagesContainer.appendChild(messageElement);
+            elementos.containerMensagens.appendChild(elementoMensagem);
         }
 
-        // Send message
-        function sendMessage() {
-            const text = elements.messageInput.value.trim();
-            if (!text || !state.activeChat) return;
+        // Enviar mensagem
+        async function enviarMensagem() {
+            const texto = elementos.entradaMensagem.value.trim();
+            if (!texto || !estado.salaAtiva) return;
             
-            // Create message
-            const message = {
-                id: 'm' + Date.now(),
-                sender: state.nickname,
-                text: text,
-                time: new Date().toISOString()
-            };
-            
-            // Add message to state
-            if (!state.messages[state.activeChat]) {
-                state.messages[state.activeChat] = [];
-            }
-            
-            state.messages[state.activeChat].push(message);
-            
-            // Add to DOM
-            addMessageToChat(message, state.activeChat);
-            
-            // Clear input
-            elements.messageInput.value = '';
-            
-            // Update chat preview
-            updateChatPreview(state.activeChat, text);
-            
-            // Save to storage
-            saveToStorage();
-            
-            // Reset chat timer (if not infinite)
-            const chat = state.chats.find(c => c.id === state.activeChat);
-            if (chat.burnTime > 0) {
-                resetChatTimer();
-            }
-            
-            // Scroll to the latest message
-            scrollToBottom();
-            
-            // Simulate auto-reply after a delay
-            setTimeout(simulateAutoReply, 2000 + Math.random() * 5000);
-        }
-
-        // Update chat preview
-        function updateChatPreview(chatId, lastMessage) {
-            const chat = state.chats.find(c => c.id === chatId);
-            if (chat) {
-                chat.preview = lastMessage.length > 50 ? lastMessage.substring(0, 50) + '...' : lastMessage;
-                saveToStorage();
+            try {
+                const resposta = await fetch(`/api/salas/${estado.salaAtiva}/mensagens`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        remetente: estado.apelido,
+                        texto: texto
+                    })
+                });
+                
+                const dados = await resposta.json();
+                
+                if (dados.sucesso) {
+                    // Adicionar ao DOM
+                    adicionarMensagemAoChat(dados.mensagem, estado.salaAtiva);
+                    
+                    // Limpar entrada
+                    elementos.entradaMensagem.value = '';
+                    
+                    // Atualizar preview da sala
+                    atualizarPreviewSala(estado.salaAtiva, texto);
+                    
+                    // Resetar temporizador do chat (se não for infinito)
+                    const sala = estado.salas.find(s => s.id === estado.salaAtiva);
+                    if (sala.tempoAutoDestruicao > 0) {
+                        resetarTemporizadorChat();
+                    }
+                    
+                    // Rolar para a mensagem mais recente
+                    rolarParaBaixo();
+                } else {
+                    alert('Erro ao enviar mensagem: ' + dados.erro);
+                }
+            } catch (erro) {
+                console.error('Erro ao enviar mensagem:', erro);
+                alert('Erro ao enviar mensagem. Verifique sua conexão.');
             }
         }
 
-        // Simulate auto-reply
-        function simulateAutoReply() {
-            if (!state.activeChat || Math.random() < 0.3) return; // 30% chance of reply
-            
-            const autoReplies = [
-                "Interesting...",
-                "I agree with you",
-                "Never thought about that",
-                "Hmm, I see",
-                "You have a point",
-                "That's true",
-                "Please continue",
-                "I like what you said",
-                "Tell me more",
-                "That's fascinating"
-            ];
-            
-            const randomReply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
-            const fakeUsers = ['Anonymous', 'Stranger', 'Someone', 'Unknown', 'MysteryUser'];
-            const fakeUser = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-            
-            const message = {
-                id: 'm' + Date.now(),
-                sender: fakeUser,
-                text: randomReply,
-                time: new Date().toISOString()
-            };
-            
-            // Add message to state
-            if (!state.messages[state.activeChat]) {
-                state.messages[state.activeChat] = [];
+        // Atualizar preview da sala
+        function atualizarPreviewSala(salaId, ultimaMensagem) {
+            const sala = estado.salas.find(s => s.id === salaId);
+            if (sala) {
+                sala.preview = ultimaMensagem.length > 50 ? 
+                    ultimaMensagem.substring(0, 50) + '...' : 
+                    ultimaMensagem;
             }
-            
-            state.messages[state.activeChat].push(message);
-            
-            // Add to DOM
-            addMessageToChat(message, state.activeChat);
-            
-            // Save to storage
-            saveToStorage();
-            
-            // Scroll to the latest message
-            scrollToBottom();
         }
 
-        // Handle typing indicator
-        function handleTyping() {
-            // Show typing indicator for other users (simulated)
-            elements.typingIndicator.classList.add('active');
+        // Manipular indicador de digitação
+        function manipularDigitacao() {
+            // Mostrar indicador de digitação para outros usuários (simulado)
+            elementos.indicadorDigitacao.classList.add('ativa');
             
-            // Clear previous timer
-            if (state.typingTimer) {
-                clearTimeout(state.typingTimer);
+            // Limpar temporizador anterior
+            if (estado.temporizadorDigitacao) {
+                clearTimeout(estado.temporizadorDigitacao);
             }
             
-            // Hide indicator after 2 seconds
-            state.typingTimer = setTimeout(() => {
-                elements.typingIndicator.classList.remove('active');
+            // Esconder indicador após 2 segundos
+            estado.temporizadorDigitacao = setTimeout(() => {
+                elementos.indicadorDigitacao.classList.remove('ativa');
             }, 2000);
         }
 
-        // Start chat timer
-        function startChatTimer(burnTimeMinutes) {
-            // If burn time is 0 (infinite), don't start a timer
-            if (burnTimeMinutes === 0) {
-                elements.chatTimer.textContent = 'Infinite';
+        // Iniciar temporizador do chat
+        function iniciarTemporizadorChat(minutosTempoDestruicao) {
+            // Se tempo de destruição for 0 (infinito), não iniciar temporizador
+            if (minutosTempoDestruicao === 0) {
+                elementos.temporizadorChat.textContent = 'Infinito';
                 return;
             }
             
-            // Set expiration based on specified time from now
-            state.chatExpiry = new Date(Date.now() + burnTimeMinutes * 60 * 1000);
-            updateChatTimerDisplay();
+            // Definir expiração baseada no tempo especificado a partir de agora
+            estado.expiracaoChat = new Date(Date.now() + minutosTempoDestruicao * 60 * 1000);
+            atualizarDisplayTemporizadorChat();
             
-            // Update every second
-            state.chatTimer = setInterval(updateChatTimerDisplay, 1000);
+            // Atualizar a cada segundo
+            estado.temporizadorChat = setInterval(atualizarDisplayTemporizadorChat, 1000);
         }
 
-        // Reset chat timer
-        function resetChatTimer() {
-            if (!state.activeChat) return;
+        // Resetar temporizador do chat
+        function resetarTemporizadorChat() {
+            if (!estado.salaAtiva) return;
             
-            const chat = state.chats.find(c => c.id === state.activeChat);
-            if (chat && chat.burnTime > 0) {
-                // Reset expiration based on specified time from now
-                state.chatExpiry = new Date(Date.now() + chat.burnTime * 60 * 1000);
+            const sala = estado.salas.find(s => s.id === estado.salaAtiva);
+            if (sala && sala.tempoAutoDestruicao > 0) {
+                // Resetar expiração baseada no tempo especificado a partir de agora
+                estado.expiracaoChat = new Date(Date.now() + sala.tempoAutoDestruicao * 60 * 1000);
             }
         }
 
-        // Update chat timer display
-        function updateChatTimerDisplay() {
-            if (!state.chatExpiry) return;
+        // Atualizar display do temporizador do chat
+        function atualizarDisplayTemporizadorChat() {
+            if (!estado.expiracaoChat) return;
 
-            const now = new Date();
-            const diff = state.chatExpiry - now;
+            const agora = new Date();
+            const diferenca = estado.expiracaoChat - agora;
 
-            if (diff <= 0) {
-                // Timer expired
-                elements.chatTimer.textContent = '00:00:00';
-                clearInterval(state.chatTimer);
+            if (diferenca <= 0) {
+                // Temporizador expirado
+                elementos.temporizadorChat.textContent = '00:00:00';
+                clearInterval(estado.temporizadorChat);
 
-                // Check if this is a fixed/official chat
-                const chat = state.chats.find(c => c.id === state.activeChat);
-                if (!chat || !chat.fixed) {
-                    // Remove the expired chat (only if not fixed)
-                    state.chats = state.chats.filter(c => c.id !== state.activeChat);
-                    delete state.messages[state.activeChat];
+                // Verificar se esta é uma sala fixa/oficial
+                const sala = estado.salas.find(s => s.id === estado.salaAtiva);
+                if (!sala || !sala.fixa) {
+                    // Remover sala expirada (apenas se não for fixa)
+                    estado.salas = estado.salas.filter(s => s.id !== estado.salaAtiva);
+                    delete estado.mensagens[estado.salaAtiva];
 
-                    // Remove from userChats if it was created by this user
-                    for (const user in state.userChats) {
-                        if (state.userChats[user] === state.activeChat) {
-                            delete state.userChats[user];
+                    // Remover de salasUsuario se foi criada por este usuário
+                    for (const usuario in estado.salasUsuario) {
+                        if (estado.salasUsuario[usuario] === estado.salaAtiva) {
+                            delete estado.salasUsuario[usuario];
                             break;
                         }
                     }
 
-                    saveToStorage();
-                    state.activeChat = null;
+                    localStorage.setItem('anonChat_salas', JSON.stringify(estado.salas));
+                    localStorage.setItem('anonChat_mensagens', JSON.stringify(estado.mensagens));
+                    localStorage.setItem('anonChat_salasUsuario', JSON.stringify(estado.salasUsuario));
+                    
+                    estado.salaAtiva = null;
 
-                    alert('This chat has expired due to inactivity and has been deleted. Returning to chat list.');
-                    showChatList();
+                    alert('Esta sala expirou por inatividade e foi deletada. Retornando para a lista de salas.');
+                    mostrarListaSalas();
                 } else {
-                    // For fixed chats, just alert but don't delete
-                    alert('This official chat has expired, but remains available.');
-                    showChatList();
+                    // Para salas fixas, apenas alertar mas não deletar
+                    alert('Esta sala oficial expirou, mas permanece disponível.');
+                    mostrarListaSalas();
                 }
                 return;
             }
 
-            // Calculate hours, minutes, and seconds
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            // Calcular horas, minutos e segundos
+            const horas = Math.floor(diferenca / (1000 * 60 * 60));
+            const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
 
-            // Format as HH:MM:SS
-            elements.chatTimer.textContent =
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            // Formatar como HH:MM:SS
+            elementos.temporizadorChat.textContent =
+                `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
         }
 
-        // Format time for display
-        function formatTime(isoString) {
-            const date = new Date(isoString);
-            return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        // Formatar tempo para display
+        function formatarTempo(stringISO) {
+            const data = new Date(stringISO);
+            return data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         }
 
-        // Scroll to bottom of chat
-        function scrollToBottom() {
-            elements.messagesContainer.scrollTop = elements.messagesContainer.scrollHeight;
+        // Rolar para o final do chat
+        function rolarParaBaixo() {
+            elementos.containerMensagens.scrollTop = elementos.containerMensagens.scrollHeight;
         }
 
-        // Hide all screens
-        function hideAllScreens() {
-            elements.chatListScreen.classList.remove('active');
-            elements.chatScreen.classList.remove('active');
+        // Esconder todas as telas
+        function esconderTodasTelas() {
+            elementos.telaListaSalas.classList.remove('ativa');
+            elementos.telaChat.classList.remove('ativa');
         }
 
-        // Simulate online users
-        function simulateOnlineUsers() {
-            // Base number of online users
-            const baseUsers = 15 + Math.floor(Math.random() * 20); // Between 15 and 35 users
-            
-            // Update every 30 seconds with small variations
-            setInterval(() => {
-                const variation = Math.floor(Math.random() * 7) - 3; // -3 to +3
-                state.onlineUsers = Math.max(10, baseUsers + variation);
-                updateOnlineCount();
-            }, 30000);
-            
-            // Update immediately
-            state.onlineUsers = baseUsers;
-            updateOnlineCount();
+        // Atualizar contador online
+        function atualizarContadorOnline() {
+            elementos.contadorOnline.textContent = estado.usuariosOnline;
         }
 
-        // Update online count display
-        function updateOnlineCount() {
-            elements.onlineCount.textContent = state.onlineUsers;
-        }
+        // Deletar sala atual (apenas para criador)
+        async function deletarSalaAtual() {
+            if (!estado.salaAtiva) return;
 
-        // Delete current chat (only for creator)
-        function deleteCurrentChat() {
-            if (!state.activeChat) return;
+            const sala = estado.salas.find(s => s.id === estado.salaAtiva);
+            if (!sala) return;
 
-            const chat = state.chats.find(c => c.id === state.activeChat);
-            if (!chat) return;
+            // Confirmar deleção
+            if (confirm(`Tem certeza que deseja deletar a sala "${sala.nome}"? Esta ação não pode ser desfeita.`)) {
+                try {
+                    const resposta = await fetch(`/api/salas/${estado.salaAtiva}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            criador: estado.apelido
+                        })
+                    });
+                    
+                    const dados = await resposta.json();
+                    
+                    if (dados.sucesso) {
+                        // Remover a sala
+                        estado.salas = estado.salas.filter(s => s.id !== estado.salaAtiva);
+                        delete estado.mensagens[estado.salaAtiva];
 
-            // Confirm deletion
-            if (confirm(`Are you sure you want to delete the chat "${chat.name}"? This action cannot be undone.`)) {
-                // Remove the chat
-                state.chats = state.chats.filter(c => c.id !== state.activeChat);
-                delete state.messages[state.activeChat];
+                        // Remover de salasUsuario
+                        delete estado.salasUsuario[estado.apelido];
 
-                // Remove from userChats
-                delete state.userChats[state.nickname];
+                        localStorage.setItem('anonChat_salas', JSON.stringify(estado.salas));
+                        localStorage.setItem('anonChat_mensagens', JSON.stringify(estado.mensagens));
+                        localStorage.setItem('anonChat_salasUsuario', JSON.stringify(estado.salasUsuario));
+                        
+                        estado.salaAtiva = null;
 
-                saveToStorage();
-                state.activeChat = null;
-
-                alert('Chat deleted successfully.');
-                showChatList();
+                        alert('Sala deletada com sucesso.');
+                        mostrarListaSalas();
+                    } else {
+                        alert('Erro ao deletar sala: ' + dados.erro);
+                    }
+                } catch (erro) {
+                    console.error('Erro ao deletar sala:', erro);
+                    alert('Erro ao deletar sala. Verifique sua conexão.');
+                }
             }
         }
 
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+        // Formatar tempo de auto-destruição
+        function formatarTempoAutoDestruicao(minutos) {
+            if (minutos === 0) return 'infinito';
+            if (minutos < 1) return `${Math.round(minutos * 60)} segundos`;
+            if (minutos < 60) return `${minutos} minuto${minutos !== 1 ? 's' : ''}`;
+            if (minutos < 1440) return `${Math.round(minutos / 60)} hora${Math.round(minutos / 60) !== 1 ? 's' : ''}`;
+            return `${Math.round(minutos / 1440)} dia${Math.round(minutos / 1440) !== 1 ? 's' : ''}`;
+        }
+
+        // Inicializar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', inicializar);
     </script>
 </body>
 </html>
